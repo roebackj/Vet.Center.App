@@ -192,42 +192,63 @@
 
 <script>
     document.getElementById("scanBtn").onclick = async function() {
-        try {
-            const response = await fetch('http://localhost:5000/api/students');
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const students = await response.json();
-            const tbody = document.querySelector('#studentTable tbody');
-            tbody.innerHTML = ''; // Clear previous results
-
-            students.forEach((student, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.name}</td>
-                    <td>${student.studentId}</td>
-                    <td>${student.benefit}</td>
-                    <td>
-                        <span>Added</span>
-                        <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box1_${index}')">
-                        <div id="box1_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">EM</div>
-                        
-                        <span>Added</span>
-                        <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box2_${index}')">
-                        <div id="box2_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">SCH</div>
-                        
-                        <span style="margin-right: 5px;">Date Checked</span>
-                        <input type="checkbox" style="margin-right: 5px;" onclick="toggleDate(this, 'dateBox_${index}', 'checkMark_${index}')">
-                        <span id="checkMark_${index}" style="display: none;"></span>
-                        <div id="dateBox_${index}" style="display: inline-block; background-color: #add8e6; color: black; padding: 5px; border-radius: 5px; width: 60px; text-align: center;"></div>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        } catch (error) {
-            console.error('Error fetching students:', error);
+    try {
+        const response = await fetch('http://localhost:5000/api/students');
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        const students = await response.json();
+        const tbody = document.querySelector('#studentTable tbody');
+        tbody.innerHTML = ''; // Clear previous results
+
+        students.forEach((student, index) => {
+            const row = document.createElement('tr');
+            const requiredDocs = getRequiredDocuments(student['Benefit']); // Get required docs based on benefit
+            row.innerHTML = `
+                <td>${student.Name}</td>
+                <td>${student["Student ID"]}</td>
+                <td>${student["Benefit"]}</td>
+                <td>
+                    <span>Added</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box1_${index}')">
+                    <div id="box1_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">EM</div>
+                    
+                    <span>Added</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box2_${index}')">
+                    <div id="box2_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">SCH</div>
+
+                    <div>${requiredDocs}</div> <!-- Display required documents here -->
+
+                    <span style="margin-right: 5px;">Date Checked</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleDate(this, 'dateBox_${index}', 'checkMark_${index}')">
+                    <span id="checkMark_${index}" style="display: none;"></span>
+                    <div id="dateBox_${index}" style="display: inline-block; background-color: #add8e6; color: black; padding: 5px; border-radius: 5px; width: 60px; text-align: center;"></div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error fetching students:', error);
+    }
+};
+
+// Function to get required documents based on the benefit
+function getRequiredDocuments(benefit) {
+    const docs = {
+        "1606 Montgomery GI Bill": "COE",
+        "Chapter 30 Montgomery GI Bill": "COE",
+        "Chapter 31 Vocational Rehabilitation or VR&E": "",
+        "Chapter 33 Post 9/11": "COE",
+        "Chapter 35 Dependent": "COE",
+        "Federal Tuition Assistance or Fed TA": "Tuition Assistance Request or TAR",
+        "Missouri State Tuition Assistance or State TA": "Award Letter",
+        "Missouri Returning Heroes": "DD-214 or Supporting Documents",
+        // Add other benefits and their required documents as needed
     };
+
+    return docs[benefit] || ""; // Return the corresponding document or a default message
+}
+
 
     // Toggle box color function
     function toggleBoxColor(checkbox, boxId) {
