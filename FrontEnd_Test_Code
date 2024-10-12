@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Page</title>
     <style>
+        body {
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+        }
+
         .navbar {
             background-color: #333;
             position: fixed;
@@ -31,7 +36,9 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             font-size: 14px;
-            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .box:hover {
@@ -57,7 +64,8 @@
         }
 
         img {
-            max-width: 100px; /* Set max width for logo */
+            max-width: 225px; /* Set max width for logo */
+            height: auto;
             margin-bottom: 20px; /* Space between the logo and welcome message */
         }
 
@@ -66,6 +74,7 @@
             width: 100%;
             text-align: center;
             border-collapse: collapse;
+            display: none; /* Hide table initially */
         }
 
         thead {
@@ -124,9 +133,9 @@
 </div>
 
 <div class="content">
-    <img src="C:\Users\groeb\INFSYS 4850\images\vet_center_logo.jpg" alt="Company Logo">
+    <img src="images\vet_center_logo.jpg" alt="Company Logo">
     <h1>Welcome to the Secure Page</h1>
-    <p>Scroll down to see how the navigation bar remains in place while you scroll through the content.</p>
+    <p>Click the <b>"Scan"</b> button to display data.</p>
     
     <table id="studentTable" border="1">
         <thead>
@@ -202,41 +211,44 @@
         tbody.innerHTML = ''; // Clear previous results
 
         students.forEach((student, index) => {
-    const row = document.createElement('tr');
-    const requiredDocs = getRequiredDocuments(student['Benefit']); // Get required docs based on benefit
-    
-    // Create the required documents section
-    const requiredDocsHTML = requiredDocs ? `
-        <span>Added</span>
-        <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'boxRequired_${index}')">
-        <div id="boxRequired_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 100px; text-align: center; margin-right: 5px;">
-            ${requiredDocs}
-        </div>
-    ` : '';
-
-    row.innerHTML = `
-        <td>${student.Name}</td>
-        <td>${student["Student ID"]}</td>
-        <td>${student["Benefit"]}</td>
-        <td>
-            <span>Added</span>
-            <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box1_${index}')">
-            <div id="box1_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">EM</div>
+            const row = document.createElement('tr');
+            const requiredDocs = getRequiredDocuments(student['Benefit']); // Get required docs based on benefit
             
-            <span>Added</span>
-            <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box2_${index}')">
-            <div id="box2_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">SCH</div>
+            // Create the required documents section
+            const requiredDocsHTML = requiredDocs ? `
+                <span>Added</span>
+                <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'boxRequired_${index}')">
+                <div id="boxRequired_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 100px; text-align: center; margin-right: 5px;">
+                    ${requiredDocs}
+                </div>
+            ` : '';
 
-            ${requiredDocsHTML} <!-- Use the styled HTML for required documents -->
+            row.innerHTML = `
+                <td>${student.Name}</td>
+                <td>${student["Student ID"]}</td>
+                <td>${student["Benefit"]}</td>
+                <td>
+                    <span>Added</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box1_${index}')">
+                    <div id="box1_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">EM</div>
+                    
+                    <span>Added</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box2_${index}')">
+                    <div id="box2_${index}" style="display: inline-block; background-color: #808080; color: white; padding: 5px; border-radius: 5px; width: 60px; text-align: center; margin-right: 5px;">SCH</div>
 
-            <span style="margin-right: 5px;">Date Checked</span>
-            <input type="checkbox" style="margin-right: 5px;" onclick="toggleDate(this, 'dateBox_${index}', 'checkMark_${index}')">
-            <span id="checkMark_${index}" style="display: none;"></span>
-            <div id="dateBox_${index}" style="display: inline-block; background-color: #add8e6; color: black; padding: 5px; border-radius: 5px; width: 60px; text-align: center;"></div>
-        </td>
-    `;
-        tbody.appendChild(row);
-    });
+                    ${requiredDocsHTML} <!-- Use the styled HTML for required documents -->
+
+                    <span style="margin-right: 5px;">Date Checked</span>
+                    <input type="checkbox" style="margin-right: 5px;" onclick="toggleDate(this, 'dateBox_${index}', 'checkMark_${index}')">
+                    <span id="checkMark_${index}" style="display: none;"></span>
+                    <div id="dateBox_${index}" style="display: inline-block; background-color: #add8e6; color: black; padding: 5px; border-radius: 5px; width: 60px; text-align: center;"></div>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // Show the table after data is loaded
+        document.getElementById('studentTable').style.display = 'table';
     } catch (error) {
         console.error('Error fetching students:', error);
     }
@@ -258,82 +270,81 @@ function getRequiredDocuments(benefit) {
     return docs[benefit] || ""; // Return the corresponding document or a default message
 }
 
-
-    // Toggle box color function
-    function toggleBoxColor(checkbox, boxId) {
-        var box = document.getElementById(boxId);
-        if (checkbox.checked) {
-            box.style.backgroundColor = 'black';
-            box.style.color = 'grey';
-        } else {
-            box.style.backgroundColor = '#808080'; // original color
-            box.style.color = 'white'; // original text color
-        }
+// Toggle box color function
+function toggleBoxColor(checkbox, boxId) {
+    var box = document.getElementById(boxId);
+    if (checkbox.checked) {
+        box.style.backgroundColor = 'black';
+        box.style.color = 'grey';
+    } else {
+        box.style.backgroundColor = '#808080'; // original color
+        box.style.color = 'white'; // original text color
     }
-    
-    // Toggle date function
-    function toggleDate(checkbox, dateBoxId, checkMarkId) {
-        var checkMark = document.getElementById(checkMarkId);
-        var dateBox = document.getElementById(dateBoxId);
+}
 
-        if (checkbox.checked) {
-            checkMark.style.display = 'inline'; // Show check mark
-            var today = new Date();
-            var formattedDate = (today.getMonth() + 1) + '/' + today.getDate(); // Month is 0-based
-            dateBox.textContent = formattedDate; // Set the date in the box
-        } else {
-            checkMark.style.display = 'none'; // Hide check mark
-            dateBox.textContent = ''; // Clear the box
-        }
+// Toggle date function
+function toggleDate(checkbox, dateBoxId, checkMarkId) {
+    var checkMark = document.getElementById(checkMarkId);
+    var dateBox = document.getElementById(dateBoxId);
+
+    if (checkbox.checked) {
+        checkMark.style.display = 'inline'; // Show check mark
+        var today = new Date();
+        var formattedDate = (today.getMonth() + 1) + '/' + today.getDate(); // Month is 0-based
+        dateBox.textContent = formattedDate; // Set the date in the box
+    } else {
+        checkMark.style.display = 'none'; // Hide check mark
+        dateBox.textContent = ''; // Clear the box
     }
+}
 
-    // Function to open modals
-    function openModal(modalId) {
-        document.getElementById(modalId).style.display = 'block';
-    }
+// Function to open modals
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+}
 
-    // Function to close modals
-    function closeModal(modal) {
-        modal.style.display = 'none';
-    }
+// Function to close modals
+function closeModal(modal) {
+    modal.style.display = 'none';
+}
 
-    // Add event listeners for each button
-    document.getElementById("coeBtn").onclick = function() {
-        openModal('coeModal');
-    };
-    document.getElementById("enrollmentBtn").onclick = function() {
-        openModal('enrollmentModal');
-    };
-    document.getElementById("scheduleBtn").onclick = function() {
-        openModal('scheduleModal');
-    };
-    document.getElementById("dd214Btn").onclick = function() {
-        openModal('dd214Modal');
-    };
-    document.getElementById("tarBtn").onclick = function() {
-        openModal('tarModal');
-    };
-    document.getElementById("awardLetterBtn").onclick = function() {
-        openModal('awardLetterModal');
-    };
+// Add event listeners for each button
+document.getElementById("coeBtn").onclick = function() {
+    openModal('coeModal');
+};
+document.getElementById("enrollmentBtn").onclick = function() {
+    openModal('enrollmentModal');
+};
+document.getElementById("scheduleBtn").onclick = function() {
+    window.location.href = "/Frontend/Documents/Schedule slide show.pdf";
+};
+document.getElementById("dd214Btn").onclick = function() {
+    openModal('dd214Modal');
+};
+document.getElementById("tarBtn").onclick = function() {
+    openModal('tarModal');
+};
+document.getElementById("awardLetterBtn").onclick = function() {
+    openModal('awardLetterModal');
+};
 
-    // Close modal when the user clicks on <span> (x)
-    const closeButtons = document.getElementsByClassName("close");
-    for (let closeButton of closeButtons) {
-        closeButton.onclick = function() {
-            const modal = closeButton.closest(".modal");
+// Close modal when the user clicks on <span> (x)
+const closeButtons = document.getElementsByClassName("close");
+for (let closeButton of closeButtons) {
+    closeButton.onclick = function() {
+        const modal = closeButton.closest(".modal");
+        closeModal(modal);
+    };
+}
+
+// Close modal when clicking outside of the modal
+window.onclick = function(event) {
+    for (let modal of document.querySelectorAll('.modal')) {
+        if (event.target == modal) {
             closeModal(modal);
-        };
-    }
-
-    // Close modal when clicking outside of the modal
-    window.onclick = function(event) {
-        for (let modal of document.querySelectorAll('.modal')) {
-            if (event.target == modal) {
-                closeModal(modal);
-            }
         }
-    };
+    }
+};
 </script>
 
 </body>
