@@ -13,45 +13,60 @@
             height: 100vh;
             background-color: #f0f0f0;
         }
+
         .login-container {
             background-color: #fff;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
-            text-align: center; /* To center the image */
+            text-align: center;
+            max-width: 400px; /* Limit max width for better alignment */
+            width: 100%; /* Full width for smaller screens */
         }
+
         img {
-            max-width: 100px; /* Set a max width for the logo */
-            margin-bottom: 20px; /* Adds space between the logo and the form */
+            max-width: 150px; /* Adjust width of the logo */
+            height: auto;
+            margin-bottom: 5px; /* Reduce space below the image */
         }
+
+        h2 {
+            margin: 10px 0; /* Reduce space around the heading */
+        }
+
         input {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust width to account for padding */
             padding: 10px;
-            margin: 10px 0;
+            margin: 5px 0; /* Reduce margin to minimize white space */
             border: 1px solid #ccc;
             border-radius: 5px;
+            box-sizing: border-box; /* Ensure padding is included in width */
         }
+
         button {
-            width: 100%;
+            width: calc(100% - 20px); /* Adjust width to account for padding */
             padding: 10px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
-            cursor: pointer;
+            margin: 10px 0; /* Add margin to separate from inputs */
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         .error {
             color: red;
+            margin-top: 10px; /* Add margin for better spacing */
         }
     </style>
 </head>
 <body>
 
 <div class="login-container">
-    <img src="C:/Users/Sir Manley/Downloads/Fall 2024/INFSYS 4850 Rottman/Teams Docs for Program/Picture1.2.jpg" alt="Company Logo">
+    <img src="images/vet_center_logo.jpg" alt="Company Logo">
     <h2>Login</h2>
     <input type="text" id="username" placeholder="Enter SSOID" required>
     <input type="password" id="password" placeholder="Enter Password" required>
@@ -68,7 +83,7 @@
         // Check if the username and password are correct
         if (username === "rjm4zc" && password === "PW1") {
             // Redirect to the protected page
-            window.location.href = "Secure.Page.1.html";
+            window.location.href = "http://127.0.0.1:5500/Frontend/Test%20(new%20code).html";
         } else {
             errorMessage.textContent = "Invalid SSOID or password.";
         }
@@ -77,4 +92,3 @@
 
 </body>
 </html>
-
