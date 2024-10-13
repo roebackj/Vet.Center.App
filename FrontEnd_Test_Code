@@ -155,7 +155,7 @@
     <div class="modal-content">
         <span class="close">&times;</span>
         <h2>Schedule Instructions</h2>
-        <p>Schedule content goes here.</p>
+        <iframe id="schedulePdf" src="" width="100%" height="400px" style="border:none;"></iframe>
     </div>
 </div>
 
@@ -309,33 +309,39 @@ function closeModal(modal) {
 }
 
 // Add event listeners for each button
-document.getElementById("coeBtn").onclick = function() {
-    openModal('coeModal');
-};
-document.getElementById("enrollmentBtn").onclick = function() {
-    openModal('enrollmentModal');
-};
-document.getElementById("scheduleBtn").onclick = function() {
-    window.location.href = "/Frontend/Documents/Schedule slide show.pdf";
-};
-document.getElementById("dd214Btn").onclick = function() {
-    openModal('dd214Modal');
-};
-document.getElementById("tarBtn").onclick = function() {
-    openModal('tarModal');
-};
-document.getElementById("awardLetterBtn").onclick = function() {
-    openModal('awardLetterModal');
-};
+    document.getElementById("coeBtn").onclick = function() {
+        openModal('coeModal');
+    };
+    document.getElementById("enrollmentBtn").onclick = function() {
+        openModal('enrollmentModal');
+    };
+    document.getElementById("scheduleBtn").onclick = function() {
+        const pdfUrl = "/Frontend/Documents/Schedule slide show.pdf";
+        document.getElementById("schedulePdf").src = pdfUrl; // Set the src of the iframe
+        openModal('scheduleModal'); // Open the modal
+    };
+    document.getElementById("dd214Btn").onclick = function() {
+        openModal('dd214Modal');
+    };
+    document.getElementById("tarBtn").onclick = function() {
+        openModal('tarModal');
+    };
+    document.getElementById("awardLetterBtn").onclick = function() {
+        openModal('awardLetterModal');
+    };
 
 // Close modal when the user clicks on <span> (x)
-const closeButtons = document.getElementsByClassName("close");
-for (let closeButton of closeButtons) {
-    closeButton.onclick = function() {
-        const modal = closeButton.closest(".modal");
-        closeModal(modal);
+    const closeButtons = document.getElementsByClassName("close");
+    for (let closeButton of closeButtons) {
+        closeButton.onclick = function() {
+            const modal = closeButton.closest(".modal");
+            closeModal(modal);
+            // Optionally, clear the iframe source when closing the modal
+            if (modal.id === 'scheduleModal') {
+                document.getElementById("schedulePdf").src = "";
+            }
+        };
     };
-}
 
 // Close modal when clicking outside of the modal
 window.onclick = function(event) {
@@ -346,9 +352,6 @@ window.onclick = function(event) {
     }
 };
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
