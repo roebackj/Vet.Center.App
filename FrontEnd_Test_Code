@@ -212,7 +212,7 @@
 
         students.forEach((student, index) => {
             const row = document.createElement('tr');
-            const requiredDocs = getRequiredDocuments(student['Benefit']); // Get required docs based on benefit
+            const requiredDocs = getRequiredDocuments(student['Benefit you plan to utilize this term (check all that apply):']); // Get required docs based on benefit
             
             // Create the required documents section
             const requiredDocsHTML = requiredDocs ? `
@@ -225,8 +225,8 @@
 
             row.innerHTML = `
                 <td>${student.Name}</td>
-                <td>${student["Student ID"]}</td>
-                <td>${student["Benefit"]}</td>
+                <td>${student["Student ID # (This is NOT your Social Security Number or SSO ID)"]}</td>
+                <td>${student["Benefit you plan to utilize this term (check all that apply):"]}</td>
                 <td>
                     <span>Added</span>
                     <input type="checkbox" style="margin-right: 5px;" onclick="toggleBoxColor(this, 'box1_${index}')">
@@ -260,7 +260,7 @@ function getRequiredDocuments(benefit) {
         "1606 Montgomery GI Bill": "COE",
         "Chapter 30 Montgomery GI Bill": "COE",
         "Chapter 31 Vocational Rehabilitation or VR&E": "",
-        "Chapter 33 Post 9/11": "COE",
+        "Chapter 33 Post 9/11 (must submit a COE)": "COE",
         "Chapter 35 Dependent": "COE",
         "Federal Tuition Assistance or Fed TA": "TAR",
         "Missouri State Tuition Assistance or State TA": "Award Letter",
@@ -346,6 +346,9 @@ window.onclick = function(event) {
     }
 };
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
