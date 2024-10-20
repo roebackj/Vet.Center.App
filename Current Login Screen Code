@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            margin: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 400px;
+        }
+        img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 80%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <img src="C:/Users/Sir Manley/Downloads/Fall 2024/INFSYS 4850 Rottman/Teams Docs for Program/Picture1.2.jpg" alt="Company Logo">
+    <h2>Login</h2>
+    <input type="text" id="username" placeholder="Enter Username" required>
+    <input type="password" id="password" placeholder="Enter Password" required>
+    <button onclick="login()">Submit</button>
+    <p class="error" id="error-message">Invalid username or password.</p>
+</div>
+
+<script>
+        function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        // Reset the error message display
+        errorMessage.style.display = "none";
+
+        // Check if the username and password are correct
+        if ((username === "A7B2Q3" && password === "PW1") ||
+            (username === "X9J4K1" && password === "PW2") ||
+            (username === "L8M5R2" && password === "PW3") ||
+            (username === "Q3W1E7" && password === "PW4") ||
+            (username === "T4Z9X6" && password === "PW5")) {
+            // Redirect to the main page
+            window.location.href = "Secure.Page.1.html"; // Change this to your main page file name
+        } else {
+            // Show the error message
+            errorMessage.style.display = "block";
+        }
+    }
+</script>
+
+</body>
+</html>
